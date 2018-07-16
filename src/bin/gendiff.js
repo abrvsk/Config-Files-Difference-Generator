@@ -1,28 +1,16 @@
 #!/usr/bin/env node
 
-// import program from 'commander';
 import genDiff from '..';
 
-const program = require('commander');
+const commander = require('commander');
 
-genDiff('It works!');
-
-program
-  .version('0.0.1')
-  .option('-h, --help', 'output usage information')
-  .option('-V, --version', 'output version number')
+commander
+  .version('0.0.1', '-V, --version')
+  .description('Compares two configuration files and shows the difference.')
   .option('-f, --format [type]', 'output format')
-  .on('-h, --help', () => {
-    console.log('Usage: gendiff [options] <firstConfig> <secondConfig>');
-    console.log('');
-    console.log('Compares two configuration files and shows a difference.');
-    console.log('');
-    console.log('  Options:');
-    console.log('');
-    console.log('    -h, --help             output usage information');
-    console.log('    -V, --version          output version number');
-    console.log('    -f, --format [type]    output format');
-    console.log('');
-  });
+  .arguments('<firstConfig> <secondConfig>')
+  .action(((firstConfig, secondConfig) => {
+    console.log(genDiff(firstConfig, secondConfig, commander.format));
+  }));
 
-program.parse(process.argv);
+commander.parse(process.argv);
