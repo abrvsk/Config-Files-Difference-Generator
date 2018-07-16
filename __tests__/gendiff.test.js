@@ -1,4 +1,4 @@
-const gendiff = require('../src/index');
+import gendiff from '../src';
 
 const first = 'test files/before.json';
 const second = 'test files/after.json';
