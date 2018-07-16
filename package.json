@@ -37,7 +37,8 @@
   "homepage": "https://github.com/abrvsk/project-lvl2-s293#readme",
   "dependencies": {
     "commander": "^2.16.0",
-    "jshint": "^2.9.5"
+    "jshint": "^2.9.5",
+    "lodash": "^4.17.10"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
