@@ -9,5 +9,5 @@ const second = 'test files/after.json';
 const expected = ['host', 'timeout', 'proxy', 'follow', 'verbose'];
 
 test('difference test', () => {
-  expect(gendiff(first, second)).toBe(expected);
+  expect(gendiff(first, second)).toEqual(expected);
 });
