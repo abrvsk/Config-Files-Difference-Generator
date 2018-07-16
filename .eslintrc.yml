@@ -1,0 +1,24 @@
+---
+
+plugins:
+  - jest
+  - flowtype
+  - babel
+
+env:
+  node: true
+  jest: true
+  es6: true
+
+parserOptions:
+  ecmaVersion: 6
+
+parser: babel-eslint
+
+extends:
+  - 'airbnb-base'
+  - 'plugin:jest/recommended'
+  - 'plugin:flowtype/recommended'
+
+rules:
+  no-console: 0
