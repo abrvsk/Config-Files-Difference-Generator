@@ -4,8 +4,6 @@ import path from 'path';
 import yaml from 'js-yaml';
 import ini from 'ini';
 
-const pathBuilder = str => `__tests__/__fixtures__/${str}`;
-
 const parseToJSON = (file) => {
   const parser = {
     '.ini': arg => ini.parse(fs.readFileSync(arg, 'UTF-8')),
@@ -40,4 +38,4 @@ const genDiff = (firstConfig, secondConfig) => {
   return `{\n${diff.join('\n')}\n}`;
 };
 
-export { genDiff, pathBuilder };
+export default genDiff;

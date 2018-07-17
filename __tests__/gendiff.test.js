@@ -1,5 +1,7 @@
 import fs from 'fs';
-import { genDiff, pathBuilder } from '../src';
+import genDiff from '../src';
+
+const pathBuilder = str => `__tests__/__fixtures__/${str}`;
 
 const firstJSON = pathBuilder('before.json');
 const secondJSON = pathBuilder('after.json');
