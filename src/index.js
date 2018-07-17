@@ -3,19 +3,20 @@ import _ from 'lodash';
 import path from 'path';
 import yaml from 'js-yaml';
 
+const parseToJSON = (file) => {
+  let result;
+  if (path.extname(file) === '.yml') {
+    result = yaml.safeLoad(fs.readFileSync(file, 'utf8'));
+  } else {
+    result = JSON.parse(fs.readFileSync(file, 'UTF-8'));
+  }
+  return result;
+}
 
 const genDiff = (firstConfig, secondConfig) => {
   // parse files to JSON.objects
-  let firstContent;
-  let secondContent;
-
-  if (path.extname(firstConfig) === '.yml') {
-    firstContent = yaml.safeLoad(fs.readFileSync(firstConfig, 'utf8'));
-    secondContent = yaml.safeLoad(fs.readFileSync(secondConfig, 'utf8'));
-  } else {
-    firstContent = JSON.parse(fs.readFileSync(firstConfig, 'UTF-8'));
-    secondContent = JSON.parse(fs.readFileSync(secondConfig, 'UTF-8'));
-  }
+  const firstContent = parseToJSON(firstConfig);
+  const secondContent = parseToJSON(secondConfig);
 
   const allKeys = _.union(Object.keys(firstContent), Object.keys(secondContent));
 
@@ -27,10 +28,9 @@ const genDiff = (firstConfig, secondConfig) => {
     if (!_.has(secondContent, x)) {
       return `  - ${x}: ${firstContent[x]}`;
     }
-    if (firstContent[x] === secondContent[x]) {
-      return `    ${x}: ${firstContent[x]}`;
-    }
-    return `  - ${x}: ${firstContent[x]}\n  + ${x}: ${secondContent[x]}`;
+    return (firstContent[x] === secondContent[x])
+      ? `    ${x}: ${firstContent[x]}`
+      : `  - ${x}: ${firstContent[x]}\n  + ${x}: ${secondContent[x]}`;
   });
   return `{\n${diff.join('\n')}\n}`;
 };
