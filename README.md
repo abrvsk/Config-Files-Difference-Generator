@@ -4,6 +4,6 @@
 
 [![Build Status](https://travis-ci.com/abrvsk/project-lvl2-s293.svg?branch=master)](https://travis-ci.com/abrvsk/project-lvl2-s293)
 
-Simple cli-tool for checking difference between configuration files.
+Simple cli-tool for checking difference between configuration files. At this point works with flat JSON, YML and INI files.
 
 For help use gendiff -h
