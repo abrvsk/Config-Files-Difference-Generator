@@ -11,7 +11,7 @@ const parseToJSON = (file) => {
     result = JSON.parse(fs.readFileSync(file, 'UTF-8'));
   }
   return result;
-}
+};
 
 const genDiff = (firstConfig, secondConfig) => {
   // parse files to JSON.objects
@@ -28,9 +28,10 @@ const genDiff = (firstConfig, secondConfig) => {
     if (!_.has(secondContent, x)) {
       return `  - ${x}: ${firstContent[x]}`;
     }
-    return (firstContent[x] === secondContent[x])
-      ? `    ${x}: ${firstContent[x]}`
-      : `  - ${x}: ${firstContent[x]}\n  + ${x}: ${secondContent[x]}`;
+    if (firstContent[x] === secondContent[x]) {
+      return `    ${x}: ${firstContent[x]}`;
+    }
+    return `  - ${x}: ${firstContent[x]}\n  + ${x}: ${secondContent[x]}`;
   });
   return `{\n${diff.join('\n')}\n}`;
 };
