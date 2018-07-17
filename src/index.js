@@ -10,10 +10,10 @@ const genDiff = (firstConfig, secondConfig) => {
 
   // build diff string
   const diff = allKeys.reduce((acc, x) => {
-    if (firstContent[x] === undefined) {
+    if (!_.has(firstContent, x)) {
       return `${acc}\n  + ${x}: ${secondContent[x]}`;
     }
-    if (secondContent[x] === undefined) {
+    if (!_.has(secondContent, x)) {
       return `${acc}\n  - ${x}: ${firstContent[x]}`;
     }
     if (firstContent[x] === secondContent[x]) {
