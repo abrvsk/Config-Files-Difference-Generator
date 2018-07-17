@@ -2,11 +2,14 @@ import fs from 'fs';
 import _ from 'lodash';
 import path from 'path';
 import yaml from 'js-yaml';
+import ini from 'ini';
 
 const parseToJSON = (file) => {
   let result;
   if (path.extname(file) === '.yml') {
     result = yaml.safeLoad(fs.readFileSync(file, 'utf8'));
+  } else if (path.extname(file) === '.ini') {
+    result = ini.parse(fs.readFileSync(file, 'UTF-8'));
   } else {
     result = JSON.parse(fs.readFileSync(file, 'UTF-8'));
   }
@@ -33,6 +36,7 @@ const genDiff = (firstConfig, secondConfig) => {
     }
     return `  - ${x}: ${firstContent[x]}\n  + ${x}: ${secondContent[x]}`;
   });
+
   return `{\n${diff.join('\n')}\n}`;
 };
 
