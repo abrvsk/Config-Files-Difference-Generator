@@ -4,16 +4,16 @@ import path from 'path';
 import yaml from 'js-yaml';
 import ini from 'ini';
 
+const pathBuilder = str => `__tests__/__fixtures__/${str}`;
+
 const parseToJSON = (file) => {
-  let result;
-  if (path.extname(file) === '.yml') {
-    result = yaml.safeLoad(fs.readFileSync(file, 'utf8'));
-  } else if (path.extname(file) === '.ini') {
-    result = ini.parse(fs.readFileSync(file, 'UTF-8'));
-  } else {
-    result = JSON.parse(fs.readFileSync(file, 'UTF-8'));
-  }
-  return result;
+  const parser = {
+    '.ini': arg => ini.parse(fs.readFileSync(arg, 'UTF-8')),
+    '.json': arg => JSON.parse(fs.readFileSync(arg, 'UTF-8')),
+    '.yml': arg => yaml.safeLoad(fs.readFileSync(arg, 'utf8')),
+  };
+  const extension = path.extname(file);
+  return parser[extension](file);
 };
 
 const genDiff = (firstConfig, secondConfig) => {
@@ -40,4 +40,4 @@ const genDiff = (firstConfig, secondConfig) => {
   return `{\n${diff.join('\n')}\n}`;
 };
 
-export default genDiff;
+export { genDiff, pathBuilder };

@@ -23,3 +23,8 @@ publish:
 
 start:
 	npm run babel-node -- src/bin/gendiff.js
+
+git:
+	git add .
+	git commit -m '$m'
+	git push
