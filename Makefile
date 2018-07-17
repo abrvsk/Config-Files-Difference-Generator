@@ -11,7 +11,7 @@ build:
 	npm run build
 
 test:
-	npm test
+	npm test --watch
 
 lint:
 	npm run eslint .

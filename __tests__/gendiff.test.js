@@ -1,12 +1,16 @@
 import gendiff from '../src';
 
-const first = 'test files/before.json';
-const second = 'test files/after.json';
+const first = '__tests__/__fixtures__/before.json';
+const second = '__tests__/__fixtures__/after.json';
 
-/* const expected = '{\nhost: hexlet.io\n+ timeout: 20
-  \n- timeout: 50\n- proxy: 123.234.53.22\n+ verbose: true\n- follow: false\n}'; */
-
-const expected = ['host', 'timeout', 'proxy', 'follow', 'verbose'];
+const expected = `{
+    host: hexlet.io
+  - timeout: 50
+  + timeout: 20
+  - proxy: 123.234.53.22
+  - follow: false
+  + verbose: true
+}`;
 
 test('difference test', () => {
   expect(gendiff(first, second)).toEqual(expected);
