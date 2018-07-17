@@ -1,6 +1,5 @@
+import fs from 'fs';
 import gendiff from '../src';
-
-const fs = require('fs');
 
 const first = '__tests__/__fixtures__/before.json';
 const second = '__tests__/__fixtures__/after.json';

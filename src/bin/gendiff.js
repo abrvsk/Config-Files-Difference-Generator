@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
+import commander from 'commander';
 import genDiff from '..';
 import { version } from '../../package.json';
-
-const commander = require('commander');
 
 commander
   .version(version, '-V, --version')
