@@ -1,29 +1,33 @@
+import path from 'path';
 import fs from 'fs';
 import _ from 'lodash';
-import getParser from './parser';
+import parsers from './parser';
+
+const parseToObject = (filePath) => {
+  const fileContent = fs.readFileSync(filePath, 'UTF-8');
+  const fileExt = path.extname(filePath);
+  return parsers[fileExt](fileContent);
+};
 
 const genDiff = (firstPath, secondPath) => {
-  // get file contents
-  const content1 = fs.readFileSync(firstPath, 'UTF-8');
-  const content2 = fs.readFileSync(secondPath, 'UTF-8');
   // parse files to JSON.objects
-  const firstContent = getParser(firstPath)(content1);
-  const secondContent = getParser(secondPath)(content2);
+  const firstContent = parseToObject(firstPath);
+  const secondContent = parseToObject(secondPath);
 
   const allKeys = _.union(Object.keys(firstContent), Object.keys(secondContent));
 
   // build diff string
-  const diff = allKeys.map((x) => {
-    if (!_.has(firstContent, x)) {
-      return `  + ${x}: ${secondContent[x]}`;
+  const diff = allKeys.map((value) => {
+    if (!_.has(firstContent, value)) {
+      return `  + ${value}: ${secondContent[value]}`;
     }
-    if (!_.has(secondContent, x)) {
-      return `  - ${x}: ${firstContent[x]}`;
+    if (!_.has(secondContent, value)) {
+      return `  - ${value}: ${firstContent[value]}`;
     }
-    if (firstContent[x] === secondContent[x]) {
-      return `    ${x}: ${firstContent[x]}`;
+    if (firstContent[value] === secondContent[value]) {
+      return `    ${value}: ${firstContent[value]}`;
     }
-    return `  - ${x}: ${firstContent[x]}\n  + ${x}: ${secondContent[x]}`;
+    return `  - ${value}: ${firstContent[value]}\n  + ${value}: ${secondContent[value]}`;
   });
 
   return `{\n${diff.join('\n')}\n}`;
