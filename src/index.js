@@ -1,27 +1,14 @@
 import fs from 'fs';
 import _ from 'lodash';
-import path from 'path';
-import yaml from 'js-yaml';
-import ini from 'ini';
+import getParser from './parser';
 
-const getParser = {
-  '.ini': ini.parse,
-  '.json': JSON.parse,
-  '.yml': yaml.safeLoad,
-};
-
-const genDiff = (firstConfig, secondConfig) => {
+const genDiff = (firstPath, secondPath) => {
   // get file contents
-  const file1 = fs.readFileSync(firstConfig, 'UTF-8');
-  const file2 = fs.readFileSync(secondConfig, 'UTF-8');
-
-  // get file extensions
-  const firstExt = path.extname(firstConfig);
-  const secondExt = path.extname(secondConfig);
-
+  const content1 = fs.readFileSync(firstPath, 'UTF-8');
+  const content2 = fs.readFileSync(secondPath, 'UTF-8');
   // parse files to JSON.objects
-  const firstContent = getParser[firstExt](file1);
-  const secondContent = getParser[secondExt](file2);
+  const firstContent = getParser(firstPath)(content1);
+  const secondContent = getParser(secondPath)(content2);
 
   const allKeys = _.union(Object.keys(firstContent), Object.keys(secondContent));
 
