@@ -4,20 +4,24 @@ import path from 'path';
 import yaml from 'js-yaml';
 import ini from 'ini';
 
-const parseToJSON = (file) => {
-  const parser = {
-    '.ini': arg => ini.parse(fs.readFileSync(arg, 'UTF-8')),
-    '.json': arg => JSON.parse(fs.readFileSync(arg, 'UTF-8')),
-    '.yml': arg => yaml.safeLoad(fs.readFileSync(arg, 'utf8')),
-  };
-  const extension = path.extname(file);
-  return parser[extension](file);
+const getParser = {
+  '.ini': ini.parse,
+  '.json': JSON.parse,
+  '.yml': yaml.safeLoad,
 };
 
 const genDiff = (firstConfig, secondConfig) => {
+  // get file contents
+  const file1 = fs.readFileSync(firstConfig, 'UTF-8');
+  const file2 = fs.readFileSync(secondConfig, 'UTF-8');
+
+  // get file extensions
+  const firstExt = path.extname(firstConfig);
+  const secondExt = path.extname(secondConfig);
+
   // parse files to JSON.objects
-  const firstContent = parseToJSON(firstConfig);
-  const secondContent = parseToJSON(secondConfig);
+  const firstContent = getParser[firstExt](file1);
+  const secondContent = getParser[secondExt](file2);
 
   const allKeys = _.union(Object.keys(firstContent), Object.keys(secondContent));
 

@@ -1,28 +1,27 @@
 import fs from 'fs';
 import genDiff from '../src';
 
-const pathBuilder = (str) => {
-  const pathToFile = '__tests__/__fixtures__/';
-  if (str === '.md') return `${pathToFile}expected${str}`;
-  return [`${pathToFile}before${str}`, `${pathToFile}after${str}`];
-};
+const pathBuilder = str => `__tests__/__fixtures__/${str}`;
 
-const testJSON = pathBuilder('.json');
-const testYAML = pathBuilder('.yml');
-const testINI = pathBuilder('.ini');
+const firstJSON = pathBuilder('before.json');
+const secondJSON = pathBuilder('after.json');
 
-const testFile = pathBuilder('.md');
+const firstYAML = pathBuilder('before.yml');
+const secondYAML = pathBuilder('after.yml');
 
-const expected = fs.readFileSync(testFile, 'UTF-8');
+const firstINI = pathBuilder('before.ini');
+const secondINI = pathBuilder('after.ini');
 
-test('difference test for JSON', () => {
-  expect(genDiff(...testJSON)).toEqual(expected);
+const testFile = pathBuilder('expected.txt');
+
+test('difference test for flat JSON', () => {
+  expect(genDiff(firstJSON, secondJSON)).toEqual(fs.readFileSync(testFile, 'UTF-8'));
 });
 
-test('difference test for YAML', () => {
-  expect(genDiff(...testYAML)).toEqual(expected);
+test('difference test for flat YAML', () => {
+  expect(genDiff(firstYAML, secondYAML)).toEqual(fs.readFileSync(testFile, 'UTF-8'));
 });
 
-test('difference test for INI', () => {
-  expect(genDiff(...testINI)).toEqual(expected);
+test('difference test for flat INI', () => {
+  expect(genDiff(firstINI, secondINI)).toEqual(fs.readFileSync(testFile, 'UTF-8'));
 });
