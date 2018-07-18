@@ -14,17 +14,18 @@ const secondINI = pathToFixtures('after.ini');
 
 const testFile = pathToFixtures('expected.txt');
 
-test('difference test for flat JSON', () => {
+describe('difference tests', () => {
   const expected = fs.readFileSync(testFile, 'UTF-8');
-  expect(genDiff(firstJSON, secondJSON)).toEqual(expected);
-});
 
-test('difference test for flat YAML', () => {
-  const expected = fs.readFileSync(testFile, 'UTF-8');
-  expect(genDiff(firstYAML, secondYAML)).toEqual(expected);
-});
+  it('difference test for flat JSON', () => {
+    expect(genDiff(firstJSON, secondJSON)).toEqual(expected);
+  });
 
-test('difference test for flat INI', () => {
-  const expected = fs.readFileSync(testFile, 'UTF-8');
-  expect(genDiff(firstINI, secondINI)).toEqual(expected);
+  it('difference test for flat YAML', () => {
+    expect(genDiff(firstYAML, secondYAML)).toEqual(expected);
+  });
+
+  it('difference test for flat INI', () => {
+    expect(genDiff(firstINI, secondINI)).toEqual(expected);
+  });
 });
