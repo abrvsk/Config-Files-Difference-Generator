@@ -17,7 +17,7 @@ const genDiff = (firstPath, secondPath) => {
 
   const diff = buildAST(firstContent, secondContent);
 
-  return render(diff);
+  return `{\n${render(diff).join('\n')}\n}`;
 };
 
 export default genDiff;

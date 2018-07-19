@@ -2,7 +2,7 @@
 const nodeType = [
   {
     type: 'has children',
-    func: (node, f) => f(node),
+    func: (node, f) => `${node.name}: {\n${f(node.children)}\n}`,
   },
   {
     type: 'changed',
@@ -22,20 +22,15 @@ const nodeType = [
   },
 ];
 
-const ASTtoString = (ast, i = 0) => {
-  if (i > 20) {
-    return ast;
-  }
-  console.log(ast);
+const ASTtoString = (ast) => {
   const buildStr = (elem) => {
-    const { func } = nodeType.find(({ type }) => type);
+    const { func } = nodeType.find(({ type }) => type === elem.type);
     return func(elem, ASTtoString);
   };
   if (ast instanceof Array) {
-    const toStr = ast.map(buildStr);
-    return toStr;
+    return ast.map(buildStr);
   }
-  return buildStr(ast, i + 1);
+  return buildStr(ast);
 };
 
 export default ASTtoString;
