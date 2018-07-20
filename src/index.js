@@ -1,8 +1,16 @@
 import path from 'path';
 import fs from 'fs';
-import parsers from './parser';
+import yaml from 'js-yaml';
+import ini from 'ini';
 import buildAST from './buildAST';
 import render from './render';
+
+const parsers = {
+  '.ini': ini.parse,
+  '.json': JSON.parse,
+  '.yml': yaml.safeLoad,
+  '.yaml': yaml.safeLoad,
+};
 
 const parseToObject = (filePath) => {
   const fileContent = fs.readFileSync(filePath, 'UTF-8');
@@ -17,7 +25,7 @@ const genDiff = (firstPath, secondPath) => {
 
   const diff = buildAST(firstContent, secondContent);
 
-  return `{\n${render(diff).join('\n')}\n}`;
+  return `{\n${render(diff)}\n}`;
 };
 
 export default genDiff;
