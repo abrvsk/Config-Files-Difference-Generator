@@ -2,9 +2,10 @@
 
 import commander from 'commander';
 import genDiff from '..';
+import { version } from '../../package.json';
 
 commander
-  .version('0.1.1', '-V, --version')
+  .version(version, '-V, --version')
   .description('Compares two configuration files and shows the difference.')
   .option('-f, --format [type]', 'output format')
   .arguments('<firstConfig> <secondConfig>')

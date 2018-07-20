@@ -1,6 +1,6 @@
 {
   "name": "lvl2-s293",
-  "version": "0.0.2",
+  "version": "0.9.0",
   "description": "Compares two configuration files and shows the difference.",
   "main": "dist/index.js",
   "bin": {

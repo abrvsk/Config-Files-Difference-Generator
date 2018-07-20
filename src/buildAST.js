@@ -3,29 +3,29 @@ import _ from 'lodash';
 const defineType = [
   {
     type: 'has children',
-    check: (element1, element2, key) => _.isObject(element1[key]) && _.isObject(element2[key]),
-    func: (element1, element2, f) => ({ children: [...f(element1, element2)] }),
+    check: (first, second, key) => _.isObject(first[key]) && _.isObject(second[key]),
+    func: (first, second, f) => ({ children: [...f(first, second)] }),
   },
   {
     type: 'changed',
-    check: (element1, element2, key) => (_.has(element1, key) && _.has(element2, key))
-                                        && (element1[key] !== element2[key]),
-    func: (element1, element2) => ({ oldValue: element1, newValue: element2 }),
+    check: (first, second, key) => (_.has(first, key) && _.has(second, key))
+                                        && (first[key] !== second[key]),
+    func: (first, second) => ({ oldValue: first, newValue: second }),
   },
   {
     type: 'unchanged',
-    check: (element1, element2, key) => (_.has(element1, key) && _.has(element2, key))
-                                        && (element1[key] === element2[key]),
+    check: (first, second, key) => (_.has(first, key) && _.has(second, key))
+                                        && (first[key] === second[key]),
     func: element => ({ value: element }),
   },
   {
     type: 'added',
-    check: (element1, element2, key) => !_.has(element1, key) && _.has(element2, key),
-    func: (element1, element2) => ({ newValue: element2 }),
+    check: (first, second, key) => !_.has(first, key) && _.has(second, key),
+    func: (first, second) => ({ newValue: second }),
   },
   {
     type: 'deleted',
-    check: (element1, element2, key) => _.has(element1, key) && !_.has(element2, key),
+    check: (first, second, key) => _.has(first, key) && !_.has(second, key),
     func: element => ({ oldValue: element }),
   },
 ];
