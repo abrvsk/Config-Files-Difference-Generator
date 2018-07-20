@@ -4,19 +4,16 @@
 
 [![Build Status](https://travis-ci.com/abrvsk/project-lvl2-s293.svg?branch=master)](https://travis-ci.com/abrvsk/project-lvl2-s293)
 
-Simple cli-tool for checking difference between configuration files. At this point works with flat JSON, YML and INI files.
+Simple cli-tool for checking difference between configuration files. Works with JSON, YML and INI files.
 
 To instal use
-    `npm install lvl2-s293`
+    `npm install lvl2-s293`.
 
-For help use gendiff ---help
+For help use
+    `gendiff --help`.
 
 To format output use
-    ```
-    -f plain
-    -f standard
-    -f json
-    ```
+    `-f plain`, `-f standard`, `-f json`.
 
 For example
-    `gendiff -f plain path-to-first-config path-to-second-config`
+    `gendiff -f plain path-to-first-config path-to-second-config`.
