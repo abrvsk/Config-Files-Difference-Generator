@@ -46,7 +46,7 @@ const ASTtoString = (ast, parent = '') => {
 const deepFilter = (node) => {
   if (node.children) return node.children.filter(elem => elem.type !== 'unchanged');
   return node.type !== 'unchanged';
-}
+};
 
 const buildPlain = (data) => {
   const filtered = data.filter(deepFilter);
