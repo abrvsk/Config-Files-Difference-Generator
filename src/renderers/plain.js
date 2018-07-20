@@ -28,12 +28,12 @@ const elemToStr = (elem) => {
 };
 
 const ASTtoString = (ast, parent = '') => {
-  const filtered = ast.filter(node => node.type !== 'unchanged');
   const buildStr = (elem) => {
     const { func } = nodeType.find(({ type }) => type === elem.type);
     return func(elem, parent, elemToStr, ASTtoString);
   };
 
+  const filtered = ast.filter(node => node.type !== 'unchanged');
   const mapped = filtered.map(buildStr);
   const addSpaces = _.flatten(mapped);
 

@@ -6,4 +6,9 @@
 
 Simple cli-tool for checking difference between configuration files. At this point works with flat JSON, YML and INI files.
 
-For help use gendiff -h
+For help use gendiff ---help
+
+To format output use
+    -f plain
+    -f standard
+    -f json
