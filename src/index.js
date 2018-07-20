@@ -3,7 +3,8 @@ import fs from 'fs';
 import yaml from 'js-yaml';
 import ini from 'ini';
 import buildAST from './buildAST';
-import render from './render';
+import standardRender from './renderers/standard';
+import plainRender from './renderers/plain';
 
 const parsers = {
   '.ini': ini.parse,
@@ -18,14 +19,14 @@ const parseToObject = (filePath) => {
   return parsers[fileExt](fileContent);
 };
 
-const genDiff = (firstPath, secondPath) => {
+const genDiff = (firstPath, secondPath, format) => {
   // parse files to JSON.objects
   const firstContent = parseToObject(firstPath);
   const secondContent = parseToObject(secondPath);
 
   const diff = buildAST(firstContent, secondContent);
 
-  return `{\n${render(diff)}\n}`;
+  return format === 'plain' ? plainRender(diff) : `{\n${standardRender(diff)}\n}`;
 };
 
 export default genDiff;
