@@ -24,28 +24,31 @@ const nodeType = [
   },
 ];
 
-const ASTtoString = (ast, depth = 0) => {
-  const strSpasesCount = (str) => {
-    const spacesCount = (depth * 4) + 2;
-    return `${' '.repeat(spacesCount)}${str}`;
-  };
-  const elemToStr = (elem) => {
-    if (_.isObject(elem)) {
-      const extraSpaces = num => ' '.repeat(num);
+const standardRender = (data) => {
+  const ASTtoString = (ast, depth = 0) => {
+    const strSpasesCount = (str) => {
+      const spacesCount = (depth * 4) + 2;
+      return `${' '.repeat(spacesCount)}${str}`;
+    };
+    const elemToStr = (elem) => {
+      if (!_.isObject(elem)) {
+        return elem;
+      }
       const keys = Object.keys(elem);
-      const addSpaces = [keys.map(key => `${extraSpaces(6)}${key}: ${(elem[key])}`), `${extraSpaces(2)}}`];
+      const addSpaces = [keys.map(key => `${' '.repeat(6)}${key}: ${(elem[key])}`), '  }'];
       const result = addSpaces.map(strSpasesCount);
       return `{\n${result.join('\n')}`;
-    }
-    return elem;
+    };
+    const buildStr = (elem) => {
+      const { func } = nodeType.find(({ type }) => type === elem.type);
+      return func(elemToStr, elem, ASTtoString, depth + 1);
+    };
+    const mapped = ast.map(buildStr);
+    const addSpaces = _.flatten(mapped).map(strSpasesCount);
+    return addSpaces.join('\n');
   };
-  const buildStr = (elem) => {
-    const { func } = nodeType.find(({ type }) => type === elem.type);
-    return func(elemToStr, elem, ASTtoString, depth + 1);
-  };
-  const mapped = ast.map(buildStr);
-  const addSpaces = _.flatten(mapped).map(strSpasesCount);
-  return addSpaces.join('\n');
+
+  return `{\n${ASTtoString(data)}\n}`;
 };
 
-export default ASTtoString;
+export default standardRender;

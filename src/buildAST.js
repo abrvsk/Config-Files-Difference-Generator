@@ -4,7 +4,7 @@ const defineType = [
   {
     type: 'has children',
     check: (first, second, key) => _.isObject(first[key]) && _.isObject(second[key]),
-    func: (first, second, f) => ({ children: [...f(first, second)] }),
+    func: (first, second, f) => ({ children: f(first, second) }),
   },
   {
     type: 'changed',

@@ -24,13 +24,14 @@ const nodeType = [
   },
 ];
 
+const elemToStr = (elem) => {
+  if (_.isObject(elem)) {
+    return 'complex value';
+  }
+  return elem;
+};
+
 const ASTtoString = (ast, parent = '') => {
-  const elemToStr = (elem) => {
-    if (_.isObject(elem)) {
-      return 'complex value';
-    }
-    return elem;
-  };
   const buildStr = (elem) => {
     const { func } = nodeType.find(({ type }) => type === elem.type);
     if (parent) {

@@ -1,32 +1,26 @@
 import path from 'path';
 import fs from 'fs';
-import yaml from 'js-yaml';
-import ini from 'ini';
 import buildAST from './buildAST';
-import standardRender from './renderers/standard';
-import plainRender from './renderers/plain';
+import getRenderer from './renderers/getRenderer';
+import parsers from './parser';
 
-const parsers = {
-  '.ini': ini.parse,
-  '.json': JSON.parse,
-  '.yml': yaml.safeLoad,
-  '.yaml': yaml.safeLoad,
-};
 
 const parseToObject = (filePath) => {
   const fileContent = fs.readFileSync(filePath, 'UTF-8');
   const fileExt = path.extname(filePath);
-  return parsers[fileExt](fileContent);
+  const parse = parsers[fileExt];
+  return parse(fileContent);
 };
 
-const genDiff = (firstPath, secondPath, format) => {
+const genDiff = (firstPath, secondPath, format = 'standard') => {
   // parse files to JSON.objects
   const firstContent = parseToObject(firstPath);
   const secondContent = parseToObject(secondPath);
 
   const diff = buildAST(firstContent, secondContent);
+  const render = getRenderer[format];
 
-  return format === 'plain' ? plainRender(diff) : `{\n${standardRender(diff)}\n}`;
+  return render(diff);
 };
 
 export default genDiff;
