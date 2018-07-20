@@ -6,4 +6,12 @@ const renderers = {
   plain,
 };
 
-export default renderers;
+const getRenderer = (format) => {
+  const renderer = renderers[format];
+  if (!renderer) {
+    throw new Error(`Error: bad format: ${format}. Please use 'plain' or 'standard'`);
+  }
+  return renderer;
+};
+
+export default getRenderer;

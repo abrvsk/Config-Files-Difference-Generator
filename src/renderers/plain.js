@@ -4,7 +4,7 @@ import _ from 'lodash';
 const nodeType = [
   {
     type: 'has children',
-    func: (node, parent, g, f) => `${f(node.children, `${parent}${node.name}`)}`,
+    func: (node, parent, g, f) => `${f(node.children, `${parent}${node.name}.`)}`,
   },
   {
     type: 'changed',
@@ -34,14 +34,24 @@ const elemToStr = (elem) => {
 const ASTtoString = (ast, parent = '') => {
   const buildStr = (elem) => {
     const { func } = nodeType.find(({ type }) => type === elem.type);
-    if (parent) {
-      return func(elem, `${parent}${'.'}`, elemToStr, ASTtoString);
-    }
     return func(elem, parent, elemToStr, ASTtoString);
   };
+
   const mapped = ast.map(buildStr);
   const addSpaces = _.flatten(mapped).filter(value => value !== '');
+
   return addSpaces.join('\n');
 };
 
-export default ASTtoString;
+const deepFilter = (node) => {
+  if (node.children) return node.children.filter(elem => elem.type !== 'unchanged');
+  return node.type !== 'unchanged';
+}
+
+const buildPlain = (data) => {
+  const filtered = data.filter(deepFilter);
+  return ASTtoString(filtered);
+};
+
+
+export default buildPlain;

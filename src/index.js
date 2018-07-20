@@ -2,23 +2,22 @@ import path from 'path';
 import fs from 'fs';
 import buildAST from './buildAST';
 import getRenderer from './renderers/getRenderer';
-import parsers from './parser';
+import getParser from './parser';
 
-
-const parseToObject = (filePath) => {
-  const fileContent = fs.readFileSync(filePath, 'UTF-8');
-  const fileExt = path.extname(filePath);
-  const parse = parsers[fileExt];
-  return parse(fileContent);
-};
 
 const genDiff = (firstPath, secondPath, format = 'standard') => {
   // parse files to JSON.objects
-  const firstContent = parseToObject(firstPath);
-  const secondContent = parseToObject(secondPath);
+  const ext = path.extname(firstPath);
+  const parseToObject = getParser(ext);
 
-  const diff = buildAST(firstContent, secondContent);
-  const render = getRenderer[format];
+  const firstContent = fs.readFileSync(firstPath, 'UTF-8');
+  const secondContent = fs.readFileSync(secondPath, 'UTF-8');
+
+  const first = parseToObject(firstContent);
+  const second = parseToObject(secondContent);
+
+  const diff = buildAST(first, second);
+  const render = getRenderer(format);
 
   return render(diff);
 };

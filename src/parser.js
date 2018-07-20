@@ -8,4 +8,12 @@ const parsers = {
   '.yaml': yaml.safeLoad,
 };
 
-export default parsers;
+const getParser = (ext) => {
+  const parser = parsers[ext];
+  if (!parser) {
+    throw new Error('Wrong file extension. Please use .json or .yml or .ini');
+  }
+  return parser;
+};
+
+export default getParser;
