@@ -10,9 +10,13 @@ const secondJSONdeep = pathToFixtures('after_deep.json');
 
 const firstYAMLflat = pathToFixtures('before_flat.yml');
 const secondYAMLflat = pathToFixtures('after_flat.yml');
+const firstYAMLfdeep = pathToFixtures('before_deep.yml');
+const secondYAMLdeep = pathToFixtures('after_deep.yaml');
 
 const firstINIflat = pathToFixtures('before_flat.ini');
 const secondINIflat = pathToFixtures('after_flat.ini');
+const firstINIdeep = pathToFixtures('before_deep.ini');
+const secondINIdeep = pathToFixtures('after_deep.ini');
 
 const testFileFlat = pathToFixtures('expected_flat.txt');
 const testFileDeep = pathToFixtures('expected_deep.txt');
@@ -33,7 +37,15 @@ describe('difference tests', () => {
     expect(genDiff(firstYAMLflat, secondYAMLflat)).toEqual(expectedFlat);
   });
 
+  it('difference test for deep YAML', () => {
+    expect(genDiff(firstYAMLfdeep, secondYAMLdeep)).toEqual(expectedDeep);
+  });
+
   it('difference test for flat INI', () => {
     expect(genDiff(firstINIflat, secondINIflat)).toEqual(expectedFlat);
+  });
+
+  it('difference test for deep INI', () => {
+    expect(genDiff(firstINIdeep, secondINIdeep)).toEqual(expectedDeep);
   });
 });

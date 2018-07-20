@@ -31,9 +31,11 @@ const ASTtoString = (ast, depth = 0) => {
   };
   const elemToStr = (elem) => {
     if (_.isObject(elem)) {
+      const extraSpaces = num => ' '.repeat(num);
       const keys = Object.keys(elem);
-      const addSpaces = [keys.map(key => `${key}: ${elem[key]}`), '}'].map(strSpasesCount);
-      return `{\n${addSpaces.join('\n')}`;
+      const addSpaces = [keys.map(key => `${extraSpaces(6)}${key}: ${(elem[key])}`), `${extraSpaces(2)}}`];
+      const result = addSpaces.map(strSpasesCount);
+      return `{\n${result.join('\n')}`;
     }
     return elem;
   };
