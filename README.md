@@ -13,7 +13,7 @@ For help use
     `gendiff --help`.
 
 To format output use
-    `-f plain`, `-f standard`, `-f json`.
+    `-f standard` (default), `-f plain` or `-f json`.
 
 For example
     `gendiff -f plain path-to-first-config path-to-second-config`.
