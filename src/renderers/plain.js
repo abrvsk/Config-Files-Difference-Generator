@@ -11,10 +11,6 @@ const nodeType = [
     func: (node, parent, g) => `Property '${parent}${node.name}' was updated from ${g(node.oldValue)} to ${g(node.newValue)}`,
   },
   {
-    type: 'unchanged',
-    func: () => '',
-  },
-  {
     type: 'added',
     func: (node, parent, g) => `Property '${parent}${node.name}' was added with value: ${g(node.newValue)}`,
   },
@@ -32,26 +28,18 @@ const elemToStr = (elem) => {
 };
 
 const ASTtoString = (ast, parent = '') => {
+  const filtered = ast.filter(node => node.type !== 'unchanged');
   const buildStr = (elem) => {
     const { func } = nodeType.find(({ type }) => type === elem.type);
     return func(elem, parent, elemToStr, ASTtoString);
   };
 
-  const mapped = ast.map(buildStr);
-  const addSpaces = _.flatten(mapped).filter(value => value !== '');
+  const mapped = filtered.map(buildStr);
+  const addSpaces = _.flatten(mapped);
 
   return addSpaces.join('\n');
 };
 
-const deepFilter = (node) => {
-  if (node.children) return node.children.filter(elem => elem.type !== 'unchanged');
-  return node.type !== 'unchanged';
-};
-
-const buildPlain = (data) => {
-  const filtered = data.filter(deepFilter);
-  return ASTtoString(filtered);
-};
-
+const buildPlain = data => ASTtoString(data);
 
 export default buildPlain;
